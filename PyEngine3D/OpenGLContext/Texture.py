@@ -239,7 +239,7 @@ class Texture:
             data = OpenGLContext.glGetTexImage(self.target, level, self.texture_format, self.data_type)
             # convert to numpy array
             if type(data) is bytes:
-                data = np.fromstring(data, dtype=dtype)
+                data = np.frombuffer(data, dtype=dtype)
             else:
                 data = np.array(data, dtype=dtype)
             glBindTexture(self.target, 0)
@@ -266,7 +266,7 @@ class Texture:
             pixels = glReadPixels(0, 0, width, height, self.texture_format, self.data_type)
             # convert to numpy array
             if type(pixels) is bytes:
-                pixels = np.fromstring(pixels, dtype=dtype)
+                pixels = np.frombuffer(pixels, dtype=dtype)
             data.append(pixels)
         data = np.array(data, dtype=dtype)
         glBindTexture(self.target, 0)

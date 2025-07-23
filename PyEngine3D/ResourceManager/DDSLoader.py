@@ -72,7 +72,7 @@ def loadDDS(imagepath):
         bufsize = (linearSize * 2) if mipMapCount > 1 else linearSize
         buffer = fp.read(bufsize)
         # buffer = np.asarray(buffer)
-        buffer = np.fromstring(buffer, dtype=np.ubyte)
+        buffer = np.frombuffer(buffer, dtype=np.ubyte)
 
         # texture desc
         components = 4

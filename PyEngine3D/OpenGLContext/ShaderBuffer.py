@@ -91,7 +91,7 @@ class ShaderBuffer:
         glBindBuffer(self.target, 0)
 
         data_string = string_at(data_ptr, self.data_size)
-        return np.fromstring(data_string, dtype=self.dtype)
+        return np.frombuffer(data_string, dtype=self.dtype)
 
 
 class AtomicCounterBuffer(ShaderBuffer):

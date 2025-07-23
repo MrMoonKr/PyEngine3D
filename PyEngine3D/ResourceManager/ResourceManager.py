@@ -20,7 +20,6 @@ import uuid
 
 from collections import OrderedDict
 from ctypes import *
-from distutils.dir_util import copy_tree
 from importlib.machinery import SourceFileLoader
 from threading import Thread
 
@@ -1638,7 +1637,7 @@ class ResourceManager(Singleton):
 
     def prepare_project_directory(self, new_project_dir):
         check_directory_and_mkdir(new_project_dir)
-        # copy_tree(self.engine_path, new_project_dir)
+        # shutil.copytree(self.engine_path, new_project_dir)
         # default_project_file = os.path.join(new_project_dir, 'defualt.project')
         # if os.path.exists(default_project_file):
         #     os.remove(default_project_file)
