@@ -125,8 +125,8 @@ class OpenGLContext:
             return GL_SHORT
         elif np.int32 == numpy_dtype:
             return GL_INT
-        elif np.int64 == numpy_dtype:
-            return GL_INT64
+        # elif np.int64 == numpy_dtype:
+        #     return GL_INT64
 
     @staticmethod
     def get_depth_attachment(internal_format):
