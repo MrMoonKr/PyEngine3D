@@ -85,7 +85,7 @@ class CoreManager(Singleton):
         self.config = None
 
         self.last_game_backend = GameBackNames.PYGLET
-        self.game_backend_list = [GameBackNames.PYGLET, GameBackNames.PYGAME]
+        self.game_backend_list = [GameBackNames.PYGLET, GameBackNames.PYGAME, GameBackNames.PYOPENGLTK]
 
         self.commands = []
 
@@ -156,25 +156,28 @@ class CoreManager(Singleton):
             self.game_backend = GameBackend_pyglet.PyGlet(self)
             self.last_game_backend = GameBackNames.PYGLET
 
-        for i in range(GameBackNames.COUNT):
-            if self.last_game_backend == GameBackNames.PYGAME:
-                try:
-                    run_pygame()
-                    break
-                except:
-                    logger.error(traceback.format_exc())
-                    logger.error("The pygame library does not exist and execution failed. Run again with the pyglet.")
-                    self.last_game_backend = GameBackNames.PYGLET
-            else:
-                try:
-                    run_pyglet()
-                    break
-                except:
-                    logger.error(traceback.format_exc())
-                    logger.error("The pyglet library does not exist and execution failed. Run again with the pygame.")
-                    self.last_game_backend = GameBackNames.PYGAME
+        def run_pyopengltk():
+            from .GameBackend import GameBackend_pyopengltk
+            self.game_backend = GameBackend_pyopengltk.PyOpenGLTk(self)
+            self.last_game_backend = GameBackNames.PYOPENGLTK
+
+        backend_factories = {
+            GameBackNames.PYGAME: run_pygame,
+            GameBackNames.PYGLET: run_pyglet,
+            GameBackNames.PYOPENGLTK: run_pyopengltk,
+        }
+        fallback_order = [name for name in self.game_backend_list if name != self.last_game_backend]
+        backend_order = [self.last_game_backend] + fallback_order
+
+        for backend_name in backend_order:
+            try:
+                backend_factories[backend_name]()
+                break
+            except:
+                logger.error(traceback.format_exc())
+                logger.error("The %s library does not exist and execution failed. Trying another backend." % backend_name)
         else:
-            logger.error('PyGame or PyGlet is required. Please run "pip install -r requirements.txt" and try again.')
+            logger.error('PyGame, PyGlet or PyOpenGLTk is required. Please run "pip install -r requirements.txt" and try again.')
             # send a message to close ui
             if self.uiCmdQueue:
                 self.uiCmdQueue.put(COMMAND.CLOSE_UI)

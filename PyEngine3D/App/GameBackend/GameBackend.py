@@ -9,7 +9,8 @@ from PyEngine3D.Common import logger, log_level, COMMAND
 class GameBackNames:
     PYGLET = "pyglet"
     PYGAME = "pygame"
-    COUNT = 2
+    PYOPENGLTK = "pyopengltk"
+    COUNT = 3
 
 
 class Event(AutoEnum):

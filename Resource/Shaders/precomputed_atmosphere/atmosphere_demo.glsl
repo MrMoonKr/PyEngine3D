@@ -68,7 +68,7 @@ void main()
             vec4 shadow_uv = SHADOW_MATRIX * vec4(point, 1.0);
             shadow_uv.xyz /= shadow_uv.w;
             shadow_uv.xyz = shadow_uv.xyz * 0.5 + 0.5;
-            float scene_shadow = texture2D(texture_shadow, shadow_uv.xy, 0).x < shadow_uv.z ? 0.0 : 1.0;
+            float scene_shadow = textureLod(texture_shadow, shadow_uv.xy, 0.0).x < shadow_uv.z ? 0.0 : 1.0;
 
             vec3 sky_irradiance;
             vec3 sun_irradiance = GetSunAndSkyIrradiance(
@@ -105,7 +105,7 @@ void main()
             vec4 shadow_uv = SHADOW_MATRIX * vec4(point, 1.0);
             shadow_uv.xyz /= shadow_uv.w;
             shadow_uv.xyz = shadow_uv.xyz * 0.5 + 0.5;
-            float scene_shadow = texture2D(texture_shadow, shadow_uv.xy, 0).x < shadow_uv.z ? 0.0 : 1.0;
+            float scene_shadow = textureLod(texture_shadow, shadow_uv.xy, 0.0).x < shadow_uv.z ? 0.0 : 1.0;
 
             vec3 sky_irradiance;
             vec3 sun_irradiance = GetSunAndSkyIrradiance(

@@ -1059,7 +1059,7 @@ float GetSceneShadowLength(float scene_dist, vec3 view_direction, sampler2D text
         vec4 shadow_uv = SHADOW_MATRIX * vec4(world_pos, 1.0);
         shadow_uv.xyz /= shadow_uv.w;
         shadow_uv.xyz = shadow_uv.xyz * 0.5 + 0.5;
-        float shadow_depth = texture2D(texture_shadow, shadow_uv.xy, 0).x;
+        float shadow_depth = textureLod(texture_shadow, shadow_uv.xy, 0.0).x;
 
         if(shadow_uv.x < 0.0 || 1.0 < shadow_uv.x || shadow_uv.y < 0.0 || 1.0 < shadow_uv.y || scene_dist <= ray_dist)
         {
